@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chai N More - Grip App</title>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #FF9966 0%, #FF7359 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .venue-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+        .venue {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #ffffff;
+        }
+        .button {
+            display: inline-block;
+            background: white;
+            color: #FF7359;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: scale(1.05);
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="chainmore.avif" alt="Chai N More" class="venue-logo">
+        <div class="spinner"></div>
+        <h1>Opening Grip...</h1>
+        <p class="venue">☕ Chai N More</p>
+        <p>Use Grip apps</p>
+
+        <div style="margin-top: 30px;">
+            <a href="swipe://powergrip-lite?venue=coffee_shop&location=chai_n_more&duration=90" class="button">
+                Open App
+            </a>
+        </div>
+
+        <p style="font-size: 14px; margin-top: 30px; opacity: 0.8;">
+            Don't have Grip?
+            <a href="https://apps.apple.com/us/app/grip-protect-your-time/id6744878853" style="color: white; text-decoration: underline;">Download it here</a>
+        </p>
+    </div>
+
+    <script>
+        // Deep link URL
+        const deepLink = 'swipe://powergrip-lite?venue=coffee_shop&location=chai_n_more&duration=90';
+        const appStoreLink = 'https://apps.apple.com/us/app/grip-protect-your-time/id6744878853';
+
+        // Try to open the app immediately on page load
+        window.addEventListener('load', function() {
+            // Track the QR scan (optional - add your analytics here)
+            console.log('QR Code scanned: Chai N More');
+
+            // Attempt to open the app
+            tryOpenApp();
+        });
+
+        function tryOpenApp() {
+            // Create an iframe to attempt opening the app (works better on iOS)
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = deepLink;
+            document.body.appendChild(iframe);
+
+            // Also set window location as backup
+            setTimeout(function() {
+                window.location.href = deepLink;
+            }, 100);
+
+            // If app doesn't open after 2.5 seconds, show fallback message
+            setTimeout(function() {
+                // Check if we're still on this page (app didn't open)
+                if (!document.hidden) {
+                    showFallback();
+                }
+            }, 2500);
+        }
+
+        function showFallback() {
+            const spinner = document.querySelector('.spinner');
+            const mainText = document.querySelector('h1');
+            if (spinner) spinner.style.display = 'none';
+            if (mainText) {
+                mainText.textContent = 'Tap "Open App" to Continue';
+            }
+        }
+
+        // Handle visibility change (app switching)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                // App likely opened successfully
+                console.log('App opened successfully');
+            }
+        });
+    </script>
+</body>
+</html>
