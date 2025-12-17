@@ -26,15 +26,27 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
-        .venue-logo {
-            width: 100px;
-            height: 100px;
+        .grip-logo {
+            width: 80px;
+            height: 80px;
             object-fit: contain;
             margin: 0 auto 20px;
-            border-radius: 20px;
+            border-radius: 16px;
             background: white;
-            padding: 10px;
+            padding: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .venue-inline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .venue-icon {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            border-radius: 8px;
         }
         h1 {
             font-size: 24px;
@@ -82,10 +94,13 @@
 </head>
 <body>
     <div class="container">
-        <img src="chainmore.avif" alt="Chai N More" class="venue-logo">
+        <img src="grip-logo.png" alt="Grip" class="grip-logo">
         <div class="spinner"></div>
         <h1>Opening Grip...</h1>
-        <p class="venue">☕ Chai N More</p>
+        <div class="venue-inline">
+            <img src="chainmore.avif" alt="Chai N More" class="venue-icon">
+            <p class="venue" style="margin: 0;">Chai N More</p>
+        </div>
         <p>Distractions off. Life on.</p>
 
         <div style="margin-top: 30px;">
